@@ -1,103 +1,93 @@
-import { useState, FormEvent } from 'react'
-import './App.css'
+import type { FormEvent } from "react";
+import { useState } from "react";
+import "./App.css";
 
-import logoimg from './assets/logo.png'
+import logoimg from "./assets/logo.png";
 
-interface infoProps{
+interface infoProps {
   title: string;
   gasolina: string | number;
   alcool: string | number;
 }
 
-function App(){
-
+function App() {
   const [gasolinaInput, setGasolinaInput] = useState(0);
-  const [alcoolInput, setAlcoolInput] = useState(0)
-  const [info, setInfo] = useState<infoProps>()
+  const [alcoolInput, setAlcoolInput] = useState(0);
+  const [info, setInfo] = useState<infoProps>();
 
-  function calcular(e: FormEvent){
-    e.preventDefault()
+  function calcular(e: FormEvent) {
+    e.preventDefault();
 
-    const calculo = (gasolinaInput / alcoolInput);
-    if(calculo <= 0.7){
+    const calculo = gasolinaInput / alcoolInput;
+    if (calculo <= 0.7) {
       setInfo({
-        title: 'Compensa usar álcool',
+        title: "Compensa usar álcool",
         gasolina: formatarMoeda(gasolinaInput),
         alcool: formatarMoeda(alcoolInput),
-      })
-    }else{
+      });
+    } else {
       setInfo({
         title: "Compensa usar gasolina",
         gasolina: formatarMoeda(gasolinaInput),
         alcool: formatarMoeda(alcoolInput),
       });
     }
-    
   }
 
-  function formatarMoeda(valor: number){
-    const valorFormatado = valor.toLocaleString("pt-br",
-    {
+  function formatarMoeda(valor: number) {
+    const valorFormatado = valor.toLocaleString("pt-br", {
       style: "currency",
-      currency: "BRL"
-    })
-    return valorFormatado
+      currency: "BRL",
+    });
+    return valorFormatado;
   }
 
-  return(
+  return (
     <div>
-      <main className='container'>
-        <img className='logo'
-        src={logoimg}
-        alt='Logo de calculadora'
-        />
+      <main className="container">
+        <img className="logo" src={logoimg} alt="Logo de calculadora" />
 
-        <h1 className='container-title'>Qual melhor opção?</h1>
+        <h1 className="container-title">Qual melhor opção?</h1>
 
-        <form className='form' onSubmit={calcular}>
-
+        <form className="form" onSubmit={calcular}>
           <label>Alcool (Preço por litro)</label>
-          <input className='input'
-          placeholder='0.0'
-          type='number'
-          min='1'
-          step='0.01'
-          value={alcoolInput}
-          onChange={ (e) => setAlcoolInput(Number(e.target.value))}
-          required
+          <input
+            className="input"
+            placeholder="0.0"
+            type="number"
+            min="1"
+            step="0.01"
+            value={alcoolInput}
+            onChange={(e) => setAlcoolInput(Number(e.target.value))}
+            required
           />
 
           <label>Gasolina (Preço por litro)</label>
-          <input className='input'
-          placeholder='0.0'
-          type='number'
-          min='1'
-          step='0.01'
-          value={gasolinaInput}
-          onChange={ (e) => setGasolinaInput(Number(e.target.value))}
-          required
+          <input
+            className="input"
+            placeholder="0.0"
+            type="number"
+            min="1"
+            step="0.01"
+            value={gasolinaInput}
+            onChange={(e) => setGasolinaInput(Number(e.target.value))}
+            required
           />
 
-          <input className='button' type='submit' value='Calcular'/>
-          
+          <input className="button" type="submit" value="Calcular" />
         </form>
 
+        {info && Object.keys(info).length > 0 && (
+          <section className="result">
+            <h1 className="result-title">{info.title}</h1>
 
-        {info &&Object.keys(info).length > 0 &&(
-        <section className='result'>
-          <h1 className='result-title'>{info.title}</h1>
-
-          <span>Gasolina: {info.gasolina}</span>
-          <span>Alcool: {info.alcool}</span>
-        </section>
-
+            <span>Gasolina: {info.gasolina}</span>
+            <span>Alcool: {info.alcool}</span>
+          </section>
         )}
-
-
       </main>
-
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
