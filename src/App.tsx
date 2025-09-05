@@ -18,7 +18,7 @@ function App(){
   function calcular(e: FormEvent){
     e.preventDefault()
 
-    let calculo = (gasolinaInput / alcoolInput);
+    const calculo = (gasolinaInput / alcoolInput);
     if(calculo <= 0.7){
       setInfo({
         title: 'Compensa usar álcool',
@@ -36,7 +36,7 @@ function App(){
   }
 
   function formatarMoeda(valor: number){
-    let valorFormatado = valor.toLocaleString("pt-br",
+    const valorFormatado = valor.toLocaleString("pt-br",
     {
       style: "currency",
       currency: "BRL"
